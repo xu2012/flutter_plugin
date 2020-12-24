@@ -5,7 +5,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Telephony;
-
+import android.util.Log;
 import static com.xyl.flutter_plugin.code.ReadSmsService.PROJECTION;
 
 /**
@@ -35,7 +35,7 @@ public class SmsObserver  extends ContentObserver {
         super.onChange(selfChange);
 
         if(lastTimeofCall != 0){
-            if(System.currentTimeMillis() -  lastTimeofCall < 1000){
+            if(System.currentTimeMillis() -  lastTimeofCall < 2000){
                 //1s之内的回调，过滤，防止多次回调
                 return;
             }
@@ -62,7 +62,6 @@ public class SmsObserver  extends ContentObserver {
         while (cursor.moveToNext()) {
             String sender = cursor.getString(cursor.getColumnIndex(Telephony.Sms.ADDRESS));
             String smsBody = cursor.getString(cursor.getColumnIndex(Telephony.Sms.BODY));
-            
             if(mHandlerMessage.onGetMessageInfo(sender,smsBody)){
                 break;
             }

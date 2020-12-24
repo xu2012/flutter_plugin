@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_plugin/flutter_plugin.dart';
+import 'package:flutter_plugin/auto_verifycode_plugin.dart';
 
 void main() {
   const MethodChannel channel = MethodChannel('flutter_plugin');
@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await FlutterPlugin.platformVersion, '42');
+    expect(await AutoVerfyCodePlugin.platformVersion, '42');
   });
 }

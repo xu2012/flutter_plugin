@@ -7,7 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.telephony.SmsMessage;
-
+import android.util.Log;
 import androidx.annotation.Nullable;
 
 import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
@@ -53,7 +53,6 @@ public class SmsReceiver extends BroadcastReceiver {
             for (SmsMessage sms : messages) {
                 String smsSender = sms.getOriginatingAddress();
                 String smsBody = sms.getMessageBody();
-                
                 if(mHandlerMessage.onGetMessageInfo(smsSender,smsBody)){
                     break;
                 }

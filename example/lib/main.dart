@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_plugin/flutter_plugin.dart';
+import 'package:flutter_plugin/auto_verifycode_plugin.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,28 +15,28 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
-
+  TextEditingController _controller = TextEditingController();
   @override
   void initState() {
     super.initState();
     initPlatformState();
-    FlutterPlugin.startCodeRead("cashot");
-    FlutterPlugin.setCodeCallback((call)async{
-      String content = await call.arguments['code'];
-      print("flutter收到了验证码是$content");
-    });
+    //开启短信监听并设置筛选的短信关键词
+    AutoVerfyCodePlugin.startCodeRead("Cashot");
+    //自动填充到TextFormField
+    AutoVerfyCodePlugin.setVerifyCode(_controller);
   }
   @override
   void dispose() {
     super.dispose();
-    FlutterPlugin.stopCodeRead();
+    //取消短信监听
+    AutoVerfyCodePlugin.stopCodeRead();
   }
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      platformVersion = await FlutterPlugin.platformVersion;
+      platformVersion = await AutoVerfyCodePlugin.platformVersion;
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -59,7 +59,9 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+          child:TextFormField(
+            controller: _controller,
+          ),
         ),
       ),
     );
