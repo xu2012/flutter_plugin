@@ -10,6 +10,7 @@
         <!-- android:theme="@android:style/Theme.NoDisplay" -->
         <activity android:name=".code.GetPermissionActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:exported="true"
             />
         <!-- 读取短信服务 -->
         <service
