@@ -20,8 +20,17 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     initPlatformState();
+    FlutterPlugin.startCodeRead("cashot");
+    FlutterPlugin.setCodeCallback((call)async{
+      String content = await call.arguments['code'];
+      print("flutter收到了验证码是$content");
+    });
   }
-
+  @override
+  void dispose() {
+    super.dispose();
+    FlutterPlugin.stopCodeRead();
+  }
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
     String platformVersion;

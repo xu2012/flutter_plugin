@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
  */
 public class ReadSmsService extends Service {
 
-    private static final String TAG = com.loan.india.verifycode.ReadSmsService.class.getSimpleName();
+    private static final String TAG = com.xyl.flutter_plugin.code.ReadSmsService.class.getSimpleName();
 
 
     // 接收到短信时的action
@@ -51,7 +51,7 @@ public class ReadSmsService extends Service {
     public static final int RECEIVER_SENDER_MSG = 0X899;
 
  
-    private com.loan.india.verifycode.AutoVerifyCodeConfig mConfig;
+    private com.xyl.flutter_plugin.code.AutoVerifyCodeConfig mConfig;
 
     long lastTimeofCall = 0L;    //最后一次数据库回调的时间
 
@@ -79,14 +79,14 @@ public class ReadSmsService extends Service {
         if (intent != null) {
             Bundle bundle = intent.getExtras();
             if (bundle == null) {
-                mConfig = new com.loan.india.verifycode.AutoVerifyCodeConfig.Builder().build();
+                mConfig = new com.xyl.flutter_plugin.code.AutoVerifyCodeConfig.Builder().build();
             } else {
                 mConfig = bundle.getParcelable(EXTRAS_CONFIG);
             }
         }
-        com.loan.india.verifycode.HandlerMessage mHandlerMessage = new com.loan.india.verifycode.HandlerMessage(mConfig);
-        mReadSmsObserver =  new com.loan.india.verifycode.SmsObserver(this, mHandlerMessage);
-        mSmsReceiver = new com.loan.india.verifycode.SmsReceiver(mHandlerMessage);
+        com.xyl.flutter_plugin.code.HandlerMessage mHandlerMessage = new com.xyl.flutter_plugin.code.HandlerMessage(mConfig);
+        mReadSmsObserver =  new com.xyl.flutter_plugin.code.SmsObserver(this, mHandlerMessage);
+        mSmsReceiver = new com.xyl.flutter_plugin.code.SmsReceiver(mHandlerMessage);
         
         register();
         

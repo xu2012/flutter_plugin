@@ -1,6 +1,7 @@
 package com.xyl.flutter_plugin
 
 import android.content.Context
+import android.util.Log
 import androidx.annotation.NonNull
 import com.xyl.flutter_plugin.code.AutoVerifyCode
 import com.xyl.flutter_plugin.code.AutoVerifyCodeConfig
@@ -33,17 +34,18 @@ class FlutterPlugin: FlutterPlugin, MethodCallHandler , ActivityAware {
     if (call.method == "getPlatformVersion") {
       result.success("Android ${android.os.Build.VERSION.RELEASE}")
     } else if(call.method =="startCodeRead"){
-        startCodeRead()
+      val params = call.arguments
+        startCodeRead(params as String)
     }else if(call.method == "stopCodeRead"){
       stopCodeRead()
     } else {
       result.notImplemented()
     }
   }
-  private fun startCodeRead(){
+  private fun startCodeRead(keyword:String?){
     val config = AutoVerifyCodeConfig.Builder()
             .smsCodeType(AutoVerifyCodeConfig.CODE_TYPE_NUMBER)
-            .smsBodyContains("Cashot")
+            .smsBodyContains(keyword)
 //                .smsBodyStartWith("")
             .build()
     AutoVerifyCode.getInstance()
