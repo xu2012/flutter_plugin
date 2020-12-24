@@ -1,8 +1,8 @@
 name: flutter_plugin
-description: A new Flutter plugin for cashot.
+description: A new Flutter plugin for auto edit verfycode code.
 version: 0.0.1
-author:
-homepage:
+author: yunlong xu <xuyunlong1216@gmail.com>
+homepage: https://github.com/xu2012
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
