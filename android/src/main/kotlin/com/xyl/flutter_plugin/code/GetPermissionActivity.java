@@ -27,7 +27,7 @@ public class GetPermissionActivity extends Activity {
      */
     private void getPermission(String permissios) {
         if (ActivityCompat.checkSelfPermission(this,permissios) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[] {permissios}, AUTOCODE_REQUEST_PERMISSION_CODE);
+            ActivityCompat.requestPermissions(this, new String[]{permissios}, AUTOCODE_REQUEST_PERMISSION_CODE);
         }else{
             AutoVerifyCode.getInstance().getHandler().sendEmptyMessage(AUTOCODE_REQUEST_PERMISSION_SUCCESS);
             finish();
@@ -38,7 +38,8 @@ public class GetPermissionActivity extends Activity {
     protected void onResume() {
         super.onResume();
         //申请短信权限
-        getPermission(Manifest.permission.READ_SMS);
+//        getPermission(Manifest.permission.READ_SMS);
+        getPermission(Manifest.permission.RECEIVE_SMS);
     }
 
     @Override

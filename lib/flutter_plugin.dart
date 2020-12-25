@@ -1,8 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
-class FlutterPlugin {
+class AutoVerfyCodePlugin {
   static const MethodChannel _channel = const MethodChannel('flutter_plugin');
 
   static Future<String> get platformVersion async {
@@ -18,11 +19,13 @@ class FlutterPlugin {
     _channel.invokeMethod("stopCodeRead");
   }
 
-  static void setCodeCallback(
-      Future<dynamic> Function(MethodCall call) handler) {
+  static void setVerifyCode(TextEditingController controller){
     _channel.setMethodCallHandler((call) async {
-      if (call.method == "receiveCode") {
-        handler.call(call);
+      if (call.method == "receiveCode" ) {
+        String content = await call.arguments['code'];
+        if(content!=null){
+          controller.text = content;
+        }
       }
     });
   }

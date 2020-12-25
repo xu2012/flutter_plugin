@@ -131,8 +131,8 @@ public class AutoVerifyCodeConfig implements Parcelable {
             return this;
         }
 
-        public com.xyl.flutter_plugin.code.AutoVerifyCodeConfig build() {
-            com.xyl.flutter_plugin.code.AutoVerifyCodeConfig codeConfig = new com.xyl.flutter_plugin.code.AutoVerifyCodeConfig();
+        public AutoVerifyCodeConfig build() {
+            AutoVerifyCodeConfig codeConfig = new AutoVerifyCodeConfig();
             codeConfig.setSmsSender(mSmsSender);
             codeConfig.setSmsSenderStart(mSmsSenderStart);
             codeConfig.setCodeLength(mCodeLength);
@@ -173,12 +173,12 @@ public class AutoVerifyCodeConfig implements Parcelable {
     }
 
     public static final Creator<AutoVerifyCodeConfig> CREATOR = new Creator<AutoVerifyCodeConfig>() {
-        public com.xyl.flutter_plugin.code.AutoVerifyCodeConfig createFromParcel(Parcel source) {
-            return new com.xyl.flutter_plugin.code.AutoVerifyCodeConfig(source);
+        public AutoVerifyCodeConfig createFromParcel(Parcel source) {
+            return new AutoVerifyCodeConfig(source);
         }
 
-        public com.xyl.flutter_plugin.code.AutoVerifyCodeConfig[] newArray(int size) {
-            return new com.xyl.flutter_plugin.code.AutoVerifyCodeConfig[size];
+        public AutoVerifyCodeConfig[] newArray(int size) {
+            return new AutoVerifyCodeConfig[size];
         }
     };
 }

@@ -4,7 +4,7 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import com.xyl.flutter_plugin.code.callback.GetMessageListener;
-
+import android.util.Log;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -172,11 +172,10 @@ public class HandlerMessage implements GetMessageListener{
      * @param msgObj
      */
     private void sendMsg(int msgWhat, String msgObj) {
-
         Message msg = Message.obtain();
         msg.what = msgWhat;
         msg.obj = msgObj;
-        com.xyl.flutter_plugin.code.AutoVerifyCode.getInstance().getHandler().sendMessage(msg);
+        AutoVerifyCode.getInstance().getHandler().sendMessage(msg);
 
     }
 }

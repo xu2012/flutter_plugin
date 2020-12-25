@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.Telephony;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -18,7 +19,7 @@ import androidx.annotation.Nullable;
  */
 public class ReadSmsService extends Service {
 
-    private static final String TAG = com.xyl.flutter_plugin.code.ReadSmsService.class.getSimpleName();
+    private static final String TAG = ReadSmsService.class.getSimpleName();
 
 
     // 接收到短信时的action
@@ -51,7 +52,7 @@ public class ReadSmsService extends Service {
     public static final int RECEIVER_SENDER_MSG = 0X899;
 
  
-    private com.xyl.flutter_plugin.code.AutoVerifyCodeConfig mConfig;
+    private AutoVerifyCodeConfig mConfig;
 
     long lastTimeofCall = 0L;    //最后一次数据库回调的时间
 
@@ -79,14 +80,14 @@ public class ReadSmsService extends Service {
         if (intent != null) {
             Bundle bundle = intent.getExtras();
             if (bundle == null) {
-                mConfig = new com.xyl.flutter_plugin.code.AutoVerifyCodeConfig.Builder().build();
+                mConfig = new AutoVerifyCodeConfig.Builder().build();
             } else {
                 mConfig = bundle.getParcelable(EXTRAS_CONFIG);
             }
         }
-        com.xyl.flutter_plugin.code.HandlerMessage mHandlerMessage = new com.xyl.flutter_plugin.code.HandlerMessage(mConfig);
-        mReadSmsObserver =  new com.xyl.flutter_plugin.code.SmsObserver(this, mHandlerMessage);
-        mSmsReceiver = new com.xyl.flutter_plugin.code.SmsReceiver(mHandlerMessage);
+        HandlerMessage mHandlerMessage = new HandlerMessage(mConfig);
+        mReadSmsObserver =  new SmsObserver(this, mHandlerMessage);
+        mSmsReceiver = new SmsReceiver(mHandlerMessage);
         
         register();
         
@@ -105,7 +106,7 @@ public class ReadSmsService extends Service {
      */
     private void register() {
         registerReceiver();
-        registerObserver();
+//        registerObserver();
     }
 
     /**
@@ -113,7 +114,7 @@ public class ReadSmsService extends Service {
      */
     private void registerReceiver() {
         IntentFilter filter = new IntentFilter(SMS_RECEIVED_ACTION);
-        //filter.addAction(SMS_RECEIVED_ACTION);
+//        filter.addAction(SMS_RECEIVED_ACTION);
         filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
         registerReceiver(mSmsReceiver, filter);
     }
@@ -130,7 +131,7 @@ public class ReadSmsService extends Service {
      */
     private void unRegister() {
         unRegisterReceiver();
-        unRegisterObserver();
+//        unRegisterObserver();
     }
 
     /**

@@ -93,14 +93,14 @@ public class AutoVerifyCode {
                     }
 
                     break;
-                case com.xyl.flutter_plugin.code.GetPermissionActivity.AUTOCODE_REQUEST_PERMISSION_SUCCESS:
+                case GetPermissionActivity.AUTOCODE_REQUEST_PERMISSION_SUCCESS:
                     //成功申请权限
                     if(mPermissionCallBack != null){
                         mPermissionCallBack.onSuccess();
                     }
                     restart();
                     break;
-                case com.xyl.flutter_plugin.code.GetPermissionActivity.AUTOCODE_REQUEST_PERMISSION_FAIL:
+                case GetPermissionActivity.AUTOCODE_REQUEST_PERMISSION_FAIL:
                     //申请权限失败
                     if(mPermissionCallBack != null){
                         if( mPermissionCallBack.onFail()){
@@ -123,25 +123,25 @@ public class AutoVerifyCode {
         }
     }
 
-    private static com.xyl.flutter_plugin.code.AutoVerifyCode INSTANCE;
+    private static AutoVerifyCode INSTANCE;
 
     private AutoVerifyCode() {}
 
-    public static com.xyl.flutter_plugin.code.AutoVerifyCode getInstance() {
+    public static AutoVerifyCode getInstance() {
         if (INSTANCE == null) {
-            synchronized(com.xyl.flutter_plugin.code.AutoVerifyCode.class){
-                INSTANCE = new com.xyl.flutter_plugin.code.AutoVerifyCode();
+            synchronized(AutoVerifyCode.class){
+                INSTANCE = new AutoVerifyCode();
             }
         }
         return INSTANCE;
     }
 
-    public com.xyl.flutter_plugin.code.AutoVerifyCode with(Context context) {
+    public AutoVerifyCode with(Context context) {
         mContext = context;
         return this;
     }
 
-    public com.xyl.flutter_plugin.code.AutoVerifyCode config(AutoVerifyCodeConfig config) {
+    public AutoVerifyCode config(AutoVerifyCodeConfig config) {
         if (mContext == null) {
             throw new NullPointerException("mContext is null.Please call with(Context) first.");
         }
@@ -150,17 +150,17 @@ public class AutoVerifyCode {
     }
 
 
-    public com.xyl.flutter_plugin.code.AutoVerifyCode smsCallback(SmsCallBack callback) {
+    public AutoVerifyCode smsCallback(SmsCallBack callback) {
         this.mSmsCallBack = callback;
         return this;
     }
 
-    public com.xyl.flutter_plugin.code.AutoVerifyCode inputCompleteCallback(OnInputCompleteListener callback) {
+    public AutoVerifyCode inputCompleteCallback(OnInputCompleteListener callback) {
         this.mOnInputComplete = callback;
         return this;
     }
 
-    public com.xyl.flutter_plugin.code.AutoVerifyCode permissionCallback(PermissionCallBack callBack){
+    public AutoVerifyCode permissionCallback(PermissionCallBack callBack){
         this.mPermissionCallBack = callBack;
         return this;
     }
@@ -170,7 +170,7 @@ public class AutoVerifyCode {
      * 设置验证码到哪个View
      * @param codeView
      */
-    public com.xyl.flutter_plugin.code.AutoVerifyCode into(TextView codeView) {
+    public AutoVerifyCode into(TextView codeView) {
         mHandler = new VerifyCodeHandler(codeView);
         return this;
     }
@@ -179,7 +179,7 @@ public class AutoVerifyCode {
      * 设置验证码到哪个View
      * @param id
      */
-    public com.xyl.flutter_plugin.code.AutoVerifyCode into(@IdRes int id) {
+    public AutoVerifyCode into(@IdRes int id) {
         if(mContext == null){
             throw new IllegalArgumentException("请先调用with方法设置activity的上下文对象");
         }
@@ -192,20 +192,23 @@ public class AutoVerifyCode {
     /**
      * 开始监听短信
      */
-    public com.xyl.flutter_plugin.code.AutoVerifyCode start(){
+    public AutoVerifyCode start(){
         if(mHandler == null){
             mHandler = new VerifyCodeHandler();
         }
         if (mConfig == null) {
             mConfig = new AutoVerifyCodeConfig.Builder().build();
         }
+        boolean a = ActivityCompat.checkSelfPermission(mContext, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED;
+        boolean b = ActivityCompat.checkSelfPermission(mContext, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED;
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED) {
+//                && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED
+        ) {
             restart();
         } else {
             Log.e(TAG, "no Permission,start to request Permission");
             //申请权限，会回调
-            mContext.startActivity(new Intent(mContext, com.xyl.flutter_plugin.code.GetPermissionActivity.class));
+            mContext.startActivity(new Intent(mContext, GetPermissionActivity.class));
         }
         
         return this;
@@ -238,7 +241,6 @@ public class AutoVerifyCode {
         if(code.equals(mCurrText)){
             return;
         }
-
 
         if (mSmsCallBack != null) {
             mSmsCallBack.onGetCode(code);
