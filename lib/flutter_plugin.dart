@@ -29,4 +29,14 @@ class AutoVerfyCodePlugin {
       }
     });
   }
+  static void onReceiveCode(Function(String data) onReceive){
+    _channel.setMethodCallHandler((call) async {
+      if (call.method == "receiveCode" ) {
+        String content = await call.arguments['code'];
+        if(content!=null){
+          onReceive(content);
+        }
+      }
+    });
+  }
 }
